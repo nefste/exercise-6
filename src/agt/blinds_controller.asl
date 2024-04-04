@@ -22,7 +22,24 @@ blinds("lowered").
 */
 @start_plan
 +!start : td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Blinds", Url) <-
-    .print("Hello world").
+    .print("Initializing Blinds Controller Agent");
+    makeArtifact("blindsController", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId).
+
+
+@raise_blinds_plan
++!raise_blinds : blinds_state("lowered") <-
+    .print("Raising the blinds");
+    .send(personalAssistant, tell, blinds(raised));
+    invokeAction("blindsController", "https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["raised"]);
+    -+blinds_state("raised").
+
+@lower_blinds_plan
++!lower_blinds : blinds_state("raised") <- 
+    .print("Lowering the blinds");
+    .send(personalAssistant, tell, blinds(lowered));
+    invokeAction("blindsController", "https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["lowered"]);
+    -+blinds_state("lowered").
+
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }

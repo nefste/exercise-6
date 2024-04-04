@@ -6,6 +6,12 @@
 // that describes a Thing of type https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Wristband (was:Wristband)
 td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Wristband", "https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/wristband-simu.ttl").
 
+// Belief for the calendar service
+td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Calendar", "https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/calendar-service.ttl").
+
+// Belief for the upcoming event
+upcoming_event(_).
+
 // The agent has an empty belief about the state of the wristband's owner
 owner_state(_).
 
@@ -20,6 +26,7 @@ owner_state(_).
  * Context: the agents believes that a WoT TD of a was:Wristband is located at Url
  * Body: the agent creates a ThingArtifact using the WoT TD of a was:Wristband and creates the goal to read the owner's state
 */
+
 @start_plan
 +!start : td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Wristband", Url) <-
     .print("Hello world");
@@ -27,6 +34,8 @@ owner_state(_).
     // the action unifies ArtId with the ID of the artifact in the workspace
     makeArtifact("wristband", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
     !read_owner_state. // creates the goal !read_owner_state
+
+
 
 /* 
  * Plan for reacting to the addition of the goal !read_owner_state
